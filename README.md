@@ -2,7 +2,7 @@
 
 # Prerequisites
 - Deploy the data pipelines for thumbnail gneration by following the steps [here](https://github.com/radon-h2020/demo-lambda-thumbgen-tosca-datapipeline). Latest Version of sources codes for the deployment can be downloaded form [here](https://github.com/mainak89/Data-pipeline-Validation-And-Load-Testing-with-Multiple-images)
-- The demo application for thumnail genration with data pipeline should be deployed.
+- The demo application for thumbnail generation with data pipeline should be deployed.
 - Java9
 - Apache Jmeter
 - aws-java-sdk-s3 JAR 1.11.313 dependencies [jar files](https://jar-download.com/artifacts/com.amazonaws/aws-java-sdk-s3/1.11.313/source-code)
@@ -152,6 +152,7 @@ The PrometheusReportingTask is a reporting task in Nifi which is capable of send
 ![metrics](metrics.png)
 
 Different metrics like nifi_amount_bytes_read, nifi_amount_bytes_written, nifi_amount_flowfiles_sent, nifi_amount_flowfiles_received etc can be viewed for each component of the nifi instance in real time.
+
 # Acknowledgement
 
 This project has received funding from the European Union’s Horizon 2020 research and innovation programme under Grant Agreement No. 825040 (RADON).
