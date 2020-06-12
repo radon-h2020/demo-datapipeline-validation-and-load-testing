@@ -118,6 +118,131 @@ This demo uses
 `Opera deploy service.yml`
 
 
+# Validation of the Data Pipelines
+
+# Prerequisites
+- Java9
+- Apache Jmeter
+- aws-java-sdk-s3 JAR 1.11.313 dependencies [jar files](https://jar-download.com/artifacts/com.amazonaws/aws-java-sdk-s3/1.11.313/source-code)
+
+# Upload Images to First AWS S3 Bucket using Apache Jmeter
+- Copy the jar files to JMeterHome/lib/ext/ of Jmeter.
+- Create a Test Plan and click on Thread Group.
+- Set Number of Threads, Ramp-up period and Loop Count to 1.
+- Right click on thread groups and as a JSR233 sampler.
+- Select Java as the language in the JSR233 sampler.
+- Add the following code in the script section of the sampler.
+```
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import com.amazonaws.auth.AWSSessionCredentials;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.AmazonS3Exception;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.PutObjectResult;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.regions.Region;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.transfer.Download;
+import com.amazonaws.services.s3.transfer.TransferManager;
+import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
+import com.amazonaws.services.s3.transfer.Upload;
+
+String accessKey = "xxxxxxx";
+String secretKey = "xxxxxxxxx";               
+String bucketName = "radon-utr-thumbgen1"; //specify bucketname
+String region = "eu-north-1";
+
+BasicAWSCredentials sessionCredentials = new BasicAWSCredentials(accessKey, secretKey);
+
+AmazonS3 s3 = AmazonS3ClientBuilder.standard()
+   .withRegion(region)
+   .withCredentials(new AWSStaticCredentialsProvider(sessionCredentials))
+   .build();
+   
+TransferManager xfer_mgr = TransferManagerBuilder.standard()
+   .withS3Client(s3)
+               .withDisableParallelDownloads(false)
+               .build();
+
+
+ArrayList list = new ArrayList();  
+Scanner s = new Scanner(new File("/home/afsana/Spring2020/MobileCloudLab/Validation/dt25.txt")); //path to txt file
+while (s.hasNextLine()){
+    list.add(s.nextLine());
+    
+}
+s.close();   
+for (int i = 0; i < list.size();i++) 
+{ 		      
+	
+	File f = new File(list.get(i));
+	String obj = 	objectName + Integer.toString(i); 
+	Upload xfer = xfer_mgr.upload(bucketName, obj, f);	
+	xfer.waitForCompletion();
+
+	
+}   
+xfer_mgr.shutdownNow();
+
+
+```
+- The accessKey and secretKey of the AWS account needs to be specified in the java code. 
+- The bucketName and region of the S3 bucket should be set in the code.
+- Right click on thread groups and add a listener “View Results Tree” which will be used to check if the uploading is done successfully.
+- Click on the Run option and look into the view results tree Listener. The Load time can be found here.
+- For testing purposes the Holidays dataset has been used which has a total of 1491 images. The testing is done with first 25 images, next 50 images and then next 100 images of the dataset.
+- The python script in filepath.py is used to get the file paths of the images stored in the image folder.
+```
+import os
+import csv
+def ls(path):
+   all = [ ]
+   walked = os.walk(path)
+   for base, sub_f, files in walked:           
+       for sub in sub_f:           
+            entry = os.path.join(base,sub)
+            entry = entry[len(path):].strip("\\")
+            all.append(entry)
+
+       for file in files:          
+           entry = os.path.join(base,file)
+           entry = entry[len(path):].strip("\\")
+           all.append(entry)
+   all.sort()
+   return all
+
+
+folder = "/home/afsana/Spring2020/MobileCloudLab/Validation/dataset/minidatasets/dt-25/"
+arr = ls(folder)
+paths = []
+for i in arr:
+    p = folder+i
+    paths.append(p)
+
+f=open('dt100.txt','w')
+for ele in paths:
+    f.write(ele+'\n')
+
+f.close()
+
+```
+- The path to the image folder is to be specified in the python script. The script creates a .txt file which contains file paths of all the images which are later used for uploading to the S3 bucket via Jmeter. The path to the .txt file is specified in the Java code of JSR233 sampler of Jmeter.
+
+
+
+
+
 # Acknowledgement
 
 This project has received funding from the European Union’s Horizon 2020 research and innovation programme under Grant Agreement No. 825040 (RADON).
