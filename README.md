@@ -1,5 +1,6 @@
 # Data-pipeline-Validation-And-Load-Testing-with-Multiple-images
-TOSCA Data pipeline to generate thumbnail of images in S3 bucket using Amazon lambda function. Push thumbnail to S3 bucket.  
+TOSCA Data pipeline to generate thumbnail of images in S3 bucket using Amazon lambda function. Push thumbnail to S3 bucket.[Reference](https://github.com/radon-h2020/demo-lambda-thumbgen-tosca-datapipeline). 
+Validating the pipleines using Apache Jmeter and collecting metrices.
 
 **Short Description**: Deploying pipelines on multiple Openstack instances that would read, preprocess, and store the image files. Testing the Data pipelines by uploading images from an image dataset using Apache JMeter and monitoring the Apache nifi instances using PrometheusReportingTask.
 
