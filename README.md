@@ -85,7 +85,7 @@ xfer_mgr.shutdownNow();
 - Click on the Run option and look into the view results tree Listener. The Load time can be found here.
 ![JSR233 Sampler](JSR233Sampler.png)
 ![Vews Results Tree](listener.png)
-- For testing purposes the [Holidays dataset](http://lear.inrialpes.fr/people/jegou/data.php) has been used which has a total of 1491 images. The testing is done with first 25 images, next 50 images and then next 100 images of the dataset.
+- For testing purposes the [Holidays dataset](http://lear.inrialpes.fr/people/jegou/data.php) has been used which has a total of 1491 images. The dataset is divided into 3 samples. Each sample comprising of 25, 50 and 100 images from the dataset.
 - The python script in filepath.py is used to get the file paths of the images stored in the image folder.
 ```
 import os
