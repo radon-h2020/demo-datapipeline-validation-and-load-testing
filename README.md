@@ -201,7 +201,7 @@ xfer_mgr.shutdownNow();
 - The bucketName and region of the S3 bucket should be set in the code.
 - Right click on thread groups and add a listener “View Results Tree” which will be used to check if the uploading is done successfully.
 - Click on the Run option and look into the view results tree Listener. The Load time can be found here.
-![JSR233 Sampler](https://drive.google.com/file/d/1p0ZxInzHD8vwNMFp_ypEnTXxAcXj4oji/view?usp=sharing)
+![JSR233 Sampler](JSR233Sampler.png)
 - For testing purposes the Holidays dataset has been used which has a total of 1491 images. The testing is done with first 25 images, next 50 images and then next 100 images of the dataset.
 - The python script in filepath.py is used to get the file paths of the images stored in the image folder.
 ```
