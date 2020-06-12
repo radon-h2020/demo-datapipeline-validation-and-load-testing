@@ -241,10 +241,28 @@ f.close()
 ```
 - The path to the image folder is to be specified in the python script. The script creates a .txt file which contains file paths of all the images which are later used for uploading to the S3 bucket via Jmeter. The path to the .txt file is specified in the Java code of JSR233 sampler of Jmeter.
 
+# Monitoring Apache Nifi Metrics Using PrometheusReportingTask
 
+## Prometheus
 
+Prometheus is an open source monitoring and alerting toolkit for containers and microservices. The toolkit is highly customizable and designed to deliver rich metrics without creating a drag on system performance. Prometheus has become the mainstream, open source monitoring tool of choice for those that lean heavily on containers and microservices.
 
+## Prometheus Pushgateway
 
+The Prometheus Pushgateway exists to allow ephemeral and batch jobs to expose their metrics to Prometheus. Since these kinds of jobs may not exist long enough to be scrapped, they can instead push their metrics to a Pushgateway. The Pushgateway then exposes these metrics to Prometheus.
+
+## PrometheusReportingTask
+
+The PrometheusReportingTask is a reporting task in Nifi which is capable of sending monitoring statistics as prometheus metrics to a prometheus pushgateway. Further, the Prometheus server scrapes the metrics from the pushgateway. The documentation is provided here. Based on the metrics retrieved from the PrometheusReportingTask, autoscaling in the nifi instance can be done.
+
+## Steps to Monitor Apache Nifi Instance using PrometheusReportingTask
+
+- Open Nifi Instance at http://<ip>:8080/nifi and go to the menu in the upper right:
+- Go to Controller Settings and add a new reporting task. Search PrometheusReportingTask and add it.
+- Click the Edit option. The following settings look like the image below
+- Keep everything to default. Click APPLY and click the run option for the PrometheusReportingTask.
+- View the metrics of the Nifi instance at <ip>:9092/metrics in real time.
+Different metrics like nifi_amount_bytes_read, nifi_amount_bytes_written, nifi_amount_flowfiles_sent, nifi_amount_flowfiles_received etc can be viewed for each component of the nifi instance in real time.
 # Acknowledgement
 
 This project has received funding from the European Union’s Horizon 2020 research and innovation programme under Grant Agreement No. 825040 (RADON).
