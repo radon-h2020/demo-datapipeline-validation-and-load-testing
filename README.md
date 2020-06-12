@@ -258,16 +258,16 @@ The PrometheusReportingTask is a reporting task in Nifi which is capable of send
 ## Steps to Monitor Apache Nifi Instance using PrometheusReportingTask
 
 - Open Nifi Instance at http://<ip>:8080/nifi and go to the menu in the upper right:
-![Pipeline2](pipeline.png]
+![Pipeline2](pipeline.png)
 - Go to Controller Settings and add a new reporting task. Search PrometheusReportingTask and add it.
-![Step1](Step1.png]
-![Step2](Step2.png]
+![Step1](Step1.png)
+![Step2](Step2.png)
 - Click the Edit option. The following settings look like the image below
-![Step3](Step3.png]
+![Step3](Step3.png)
 - Keep everything to default. Click APPLY and click the run option for the PrometheusReportingTask.
-![Step4](Step4.png]
+![Step4](Step4.png)
 - View the metrics of the Nifi instance at <ip>:9092/metrics in real time.
-![metrics](metrics.png]
+![metrics](metrics.png)
 
 Different metrics like nifi_amount_bytes_read, nifi_amount_bytes_written, nifi_amount_flowfiles_sent, nifi_amount_flowfiles_received etc can be viewed for each component of the nifi instance in real time.
 # Acknowledgement
