@@ -7,7 +7,7 @@ The Thumbnail generation with data pipeline demo application is verified by push
 - Apache Jmeter
 - aws-java-sdk-s3 JAR 1.11.313 dependencies [jar files](https://jar-download.com/artifacts/com.amazonaws/aws-java-sdk-s3/1.11.313/source-code)
 
-# Upload Images to AWS S3 Bucket using Apache Jmeter
+# Upload Images to AWS S3 Bucket using Apache JMeter
 - Copy the jar files to JMeterHome/lib/ext/ of Jmeter.
 - Create a Test Plan and click on Thread Group.
 - Set Number of Threads, Ramp-up period and Loop Count to 1.
