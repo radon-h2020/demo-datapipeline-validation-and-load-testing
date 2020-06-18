@@ -1,5 +1,5 @@
 # Validation of the Thumbnail Generation with Data Pipeline Demo Application
-
+The Thumbnail generation with data pipeline demo application is verified by pushing multiple images as a form of loads to the S3Buckets through JMeter. For generating the datasets with multiple images, INRIA Holiday dataset is used. In case of verifying the demo lab application, multiple images are uploaded to the source endpoint i.e. to the source S3Bucket through JMeter. During load testing, we check that the data pipeline services still perform as expected in terms of multiple performance metrics, i.e. load time, throughput, etc. Further, the success rate of the demo lab application is tested by comparing the uploaded images on the source S3Bucket with the thumbnails in the other data end-point or destination S3Buckets.
 # Prerequisites
 - Deploy the data pipelines for thumbnail gneration by following the steps [here](https://github.com/radon-h2020/demo-lambda-thumbgen-tosca-datapipeline). Latest Version of sources codes for the deployment can be downloaded form [here](https://github.com/mainak89/Data-pipeline-Validation-And-Load-Testing-with-Multiple-images)
 - The demo application for thumbnail generation with data pipeline should be deployed.
