@@ -56,7 +56,19 @@ node_types:
           delete:
             inputs:
               id: { default: { get_attribute: [ SELF, id ] } }
-            implementation: nodetypes/vm/delete.yml
+            implementation: nodetypes/vm/delete.yml\
+            
+  radon.nodes.NodeExporter:
+    derived_from: tosca.nodes.SoftwareComponent
+    requirements:
+      - host:
+          capability: tosca.capabilities.Compute
+          relationship: tosca.relationships.HostedOn
+    interfaces:
+      Standard:
+        type: tosca.interfaces.node.lifecycle.Standard
+        operations:
+          create: playbooks/node_exporter/node_exporter.yml
 
   radon.nodes.abstract.DataPipeline:
     derived_from: tosca.nodes.Root
