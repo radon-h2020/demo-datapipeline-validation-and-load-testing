@@ -57,6 +57,18 @@ node_types:
             inputs:
               id: { default: { get_attribute: [ SELF, id ] } }
             implementation: nodetypes/vm/delete.yml
+            
+  radon.nodes.NodeExporter:
+    derived_from: tosca.nodes.SoftwareComponent
+    requirements:
+      - host:
+          capability: tosca.capabilities.Compute
+          relationship: tosca.relationships.HostedOn
+    interfaces:
+      Standard:
+        type: tosca.interfaces.node.lifecycle.Standard
+        operations:
+          create: nodetypes/node_exporter/node_exporter.yml
 
   radon.nodes.abstract.DataPipeline:
     derived_from: tosca.nodes.Root
@@ -198,6 +210,11 @@ topology_template:
         flavor: m2.xsmall
         network: provider_64_net
         key_name: key_khan
+        
+    node1:
+      type: radon.nodes.NodeExporter
+      requirements:
+        - host: vmone
 
     vmtwo:
       type: radon.nodes.VM.OpenStack
@@ -208,7 +225,12 @@ topology_template:
         network: provider_64_net
         key_name: key_khan
       requirements:
-        - dependency: vmone      
+        - dependency: vmone   
+        
+    node2:
+      type: radon.nodes.NodeExporter
+      requirements:
+        - host: vmtwo
 
     # INSTALL and CONFIGURE nifi on this instance
     nifi_vmone:

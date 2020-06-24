@@ -10,7 +10,9 @@
         key_name: "{{ key_name }}"
         flavor: "{{ flavor }}"
         network: "{{ network }}"
-        security_groups: default
+        security_groups: 
+          - default
+          - Afsana_Khan # security group that opens port 9100 for node_exporter
         boot_from_volume: True
         volume_size: 20
         timeout: 200
