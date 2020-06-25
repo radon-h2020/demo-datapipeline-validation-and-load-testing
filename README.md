@@ -123,7 +123,7 @@ f.close()
 ```
 - The path of the image folder is to be specified in the python script. The script creates a .txt file, which contains file paths of all the images and later are used for uploading to the S3 bucket via JMeter. The path of the .txt file is specified in the Java code of JSR233 sampler of JMeter.
 
-# Monitoring Apache Nifi Metrics Using PrometheusReportingTask
+# Monitoring Apache Nifi Instances Using PrometheusReportingTask
 
 ## Prometheus
 
