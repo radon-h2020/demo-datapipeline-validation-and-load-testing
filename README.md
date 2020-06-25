@@ -153,6 +153,87 @@ The PrometheusReportingTask is a reporting task in Nifi which is capable of send
 
 Different metrics like nifi_amount_bytes_read, nifi_amount_bytes_written, nifi_amount_flowfiles_sent, nifi_amount_flowfiles_received etc can be viewed for each component of the nifi instance in real time.
 
+
+# Monitoring VM instances on which data pipelines are deployed with Prometheus Node Exporter
+
+Node Exporter is a tool which enables to measure various machine resources such as memory, disk and CPU utilization. During the deployment, node exporter is installed and activated in the instances of Openstack where data pipelines are deployed. In oder to view the metrics fetched from node exporter, Prometheus is installed in another machine following the steps in the following [link](https://computingforgeeks.com/install-prometheus-server-on-centos-7/).
+
+## Steps to monitor the metrics collected from node exporter on the prometheus graphical interface
+
+1. Create a folder in the machine where prometheus is installed.
+2. Place the SSH key of Openstack in the same folder. The key will have an extension .pem. (Let us assume the key is key.pem)
+3. Download the Openstack RC file in order to obtain the credentials of Openstack. For this go to API Access -> Download OpenStack RC file -> OpenStack RC file (ldpc-openrc.sh).A sample screenshot is also given in the below figure
+
+![Openstack_RC](Openstack_RC.png)
+
+4. Execute the following commands in order 
+```
+eval `ssh-agent` # Activates SSH agent service
+
+ssh-add key.pem # Adds the ssh key to the SSH agent
+
+source ldpc-openrc.sh # Provide Openstack login password
+
+nova list --status ACTIVE | grep -v '\-\-\-\-' | sed 's/^[^|]\+|//g' | sed 's/|\(.\)/,\1/g' | tr '|' '\n' > servers.txt # Creates a txt file which contains the list of all active openstack instances
+
+```
+5. Create a file named parser.py and paste the following code in it.
+```
+import pandas as pd
+pd.set_option('display.max_columns', None)
+df = pd.read_csv('servers.txt', sep =",")
+
+df.drop(df.columns[0],axis=1,inplace=True)
+
+df.columns = df.columns.str.replace(' ', '')
+cols = ['ID', 'Name', 'Status', 'TaskState', 'PowerState', 'Networks']
+for i in cols:
+    df[i] = df[i].str.strip()
+
+df['Networks'] = df['Networks'].astype('str')
+iplist =[]
+df = df[df['Name'].str.contains("vm_centos_radon")]
+for i in df['Networks']:
+    network = i.split("=")
+    ip = network[1]
+    ip_port = ", '" + ip + ":9100'"
+    iplist.append(ip_port)
+  
+target = " "
+for i in range(len(iplist)):
+    
+    target = target + iplist[i]
+    
+    
+#print(target)    
+output_file=open('prometheus.yml', 'w')
+output_file.write("global:\n")
+output_file.write("  scrape_interval: 10s\n")
+output_file.write("scrape_configs:\n")
+output_file.write("    - job_name: 'prometheus'\n")
+output_file.write("      scrape_interval: 5s\n")
+output_file.write("      static_configs:\n")
+output_file.write("        - targets: ['localhost:9090']\n")
+output_file.write("    - job_name: 'node_exporter_metrics'\n")
+output_file.write("      scrape_interval: 5s\n")
+output_file.write("      static_configs:\n")
+output_file.write("        - targets: ["+ target + "]")
+```
+6. Execute the following commands in order
+```
+python parser.py # Parses the servers.txt file and obtains only the ip of the instances in which datapielines are deployed.
+
+sudo cp prometheus.yml /etc/prometheus/prometheus.yml # Updates the prometheus.yml file of prometheus
+
+sudo systemctl start prometheus # Starts the prometheus server
+
+sudo systemctl restart prometheus # Restarts the prometheus server.
+```
+7. The prometheus server can be accessed at the port 9090 through the address localhost:9090. A demo of the prometheus graphical interface is shown below.
+
+![prometheus_interface](prometheus_interface.png)
+
+
 # Acknowledgement
 
 This project has received funding from the European Union’s Horizon 2020 research and innovation programme under Grant Agreement No. 825040 (RADON).
