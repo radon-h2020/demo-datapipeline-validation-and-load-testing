@@ -11,7 +11,7 @@ The Thumbnail generation with data pipeline demo application is verified by push
 - Copy the jar files to JMeterHome/lib/ext/ of Jmeter.
 - Create a Test Plan and click on Thread Group.
 - Set Number of Threads, Ramp-up period and Loop Count to 1.
-- Right click on thread groups and as a JSR233 sampler.
+- Right click on thread groups and add a JSR233 sampler.
 - Select Java as the language in the JSR233 sampler.
 - Add the following code in the script section of the sampler.
 ```
@@ -81,12 +81,12 @@ xfer_mgr.shutdownNow();
 ```
 - The accessKey and secretKey of the AWS account needs to be specified in the java code. 
 - The bucketName and region of the S3 bucket should be set in the code.
-- Right click on thread groups and add a listener “View Results Tree” which will be used to check if the uploading is done successfully.
-- Click on the Run option and look into the view results tree Listener. The Load time can be found here.
+- Right click on thread groups and add a listener “View Results Tree”, which will be used to check the successful uploading of the images.
+- Click on the Run option and look into the view results tree Listener. Observe the Load time during image uploading.
 ![JSR233 Sampler](JSR233Sampler.png)
 ![Vews Results Tree](listener.png)
-- For testing purposes the [Holidays dataset](http://lear.inrialpes.fr/people/jegou/data.php) has been used which has a total of 1491 images. The dataset is divided into 3 samples. Each sample comprising of 25, 50 and 100 images from the dataset.
-- The python script in filepath.py is used to get the file paths of the images stored in the image folder.
+- For testing purposes, the [Holidays dataset](http://lear.inrialpes.fr/people/jegou/data.php) has been used. The dataset is divided into 3 samples. Each sample comprising of 25, 50 and 100 images, respectively.
+- The python script in filepath.py is used to get the file paths of the images, stored in the image folder.
 ```
 import os
 import csv
@@ -121,7 +121,7 @@ for ele in paths:
 f.close()
 
 ```
-- The path of the image folder is to be specified in the python script. The script creates a .txt file which contains file paths of all the images which are later used for uploading to the S3 bucket via Jmeter. The path of the .txt file is specified in the Java code of JSR233 sampler of Jmeter.
+- The path of the image folder is to be specified in the python script. The script creates a .txt file, which contains file paths of all the images and later are used for uploading to the S3 bucket via JMeter. The path of the .txt file is specified in the Java code of JSR233 sampler of JMeter.
 
 # Monitoring Apache Nifi Metrics Using PrometheusReportingTask
 
@@ -131,11 +131,11 @@ Prometheus is an open source monitoring and alerting toolkit for containers and 
 
 ## Prometheus Pushgateway
 
-The Prometheus Pushgateway exists to allow ephemeral and batch jobs to expose their metrics to Prometheus. Since these kinds of jobs may not exist long enough to be scrapped, they can instead push their metrics to a Pushgateway. The Pushgateway then exposes these metrics to Prometheus.
+The Prometheus Pushgateway exists to allow ephemeral and batch jobs to expose their metrics to Prometheus. Since, these kinds of jobs can not exist long enough to be scrapped, they can instead push their metrics to a Pushgateway. The Pushgateway then exposes these metrics to Prometheus.
 
 ## PrometheusReportingTask
 
-The PrometheusReportingTask is a reporting task in Nifi which is capable of sending monitoring statistics as prometheus metrics to a prometheus pushgateway. Further, the Prometheus server scrapes the metrics from the pushgateway. The documentation is provided here. Based on the metrics retrieved from the PrometheusReportingTask, autoscaling in the nifi instance can be done.
+The PrometheusReportingTask is a reporting task in Nifi processors, which is capable of sending monitoring statistics as prometheus metrics to a prometheus pushgateway. Further, the Prometheus server scrapes the metrics from the pushgateway. The documentation is provided [here](http://nifi.apache.org/docs/nifi-docs/components/org.apache.nifi/nifi-prometheus-nar/1.11.4/org.apache.nifi.reporting.prometheus.PrometheusReportingTask/index.html). 
 
 ## Steps to Monitor Apache Nifi Instance using PrometheusReportingTask
 
@@ -151,18 +151,18 @@ The PrometheusReportingTask is a reporting task in Nifi which is capable of send
 - View the metrics of the Nifi instance at <ip>:9092/metrics in real time.
 ![metrics](metrics.png)
 
-Different metrics like nifi_amount_bytes_read, nifi_amount_bytes_written, nifi_amount_flowfiles_sent, nifi_amount_flowfiles_received etc can be viewed for each component of the nifi instance in real time.
+Different metrics like nifi_amount_bytes_read, nifi_amount_bytes_written, nifi_amount_flowfiles_sent, nifi_amount_flowfiles_received, etc. can be viewed for each component of the nifi instance in real time.
 
 
-# Monitoring VM instances on which data pipelines are deployed with Prometheus Node Exporter
+# Monitoring VM instances with Prometheus Node Exporter on which Apache NiFi instances of data pipelines are deployed 
 
-Node Exporter is a tool which enables to measure various machine resources such as memory, disk and CPU utilization. During the deployment, node exporter is installed and activated in the instances of Openstack where data pipelines are deployed. In oder to view the metrics fetched from node exporter, Prometheus is installed in another machine following the steps in the following [link](https://computingforgeeks.com/install-prometheus-server-on-centos-7/).
+Node Exporter is a tool which enables to measure various computing resources such as memory, disk and CPU utilization. During the deployment, node exporter is installed and activated in the instances of OpenStack, where data pipelines are deployed on the VM instances. In oder to view the metrics fetched from node exporter, Prometheus is installed in another machine (local machine/VM instance in OpenStack) using the steps given in [link](https://computingforgeeks.com/install-prometheus-server-on-centos-7/).
 
 ## Steps to monitor the metrics collected from node exporter on the prometheus graphical interface
 
 1. Create a folder in the machine where prometheus is installed.
-2. Place the SSH key of Openstack in the same folder. The key will have an extension .pem. (Let us assume the key is key.pem)
-3. Download the Openstack RC file in order to obtain the credentials of Openstack. For this go to API Access -> Download OpenStack RC file -> OpenStack RC file (ldpc-openrc.sh).A sample screenshot is also given in the below figure
+2. Place the SSH key of OpenStack in the same folder. The key will have an extension .pem. (Let us assume the key is key.pem)
+3. Download the OpenStack RC file in order to obtain the credentials of Openstack. For this go to API Access -> Download OpenStack RC file -> OpenStack RC file (ldpc-openrc.sh).A sample screenshot is also given in the below figure.
 
 ![Openstack_RC](Openstack_RC.png)
 
