@@ -158,11 +158,13 @@ Different metrics like nifi_amount_bytes_read, nifi_amount_bytes_written, nifi_a
 
 Node Exporter is a tool which enables to measure various machine resources such as memory, disk and CPU utilization. During the deployment, node exporter is installed and activated in the instances of OpenStack where data pipelines are deployed. In oder to view the metrics fetched from node exporter, Prometheus is installed in another machine following the steps in the following [link](https://computingforgeeks.com/install-prometheus-server-on-centos-7/).
 
-Steps to monitor the metrics collected from node exporter from the graphical interface of prometheus
+## Steps to monitor the metrics collected from node exporter from the graphical interface of prometheus
 
 1. Create a folder in the machine where prometheus is installed.
 2. Place the SSH key of OpenStack in the same folder. The key will have an extension .pem. (Let us assume the key is key.pem)
 3. Download the Openstack RC file in order to obtain the credentials of Openstack. For this go to API Access -> Download OpenStack RC file -> OpenStack RC file (ldpc-openrc.sh).A sample screenshot is also given in the below figure
+
+![Openstack_RC](Openstack_RC.png)
 
 4. Execute the following commands in order 
 ```
@@ -227,8 +229,9 @@ sudo systemctl start prometheus # Starts the prometheus server
 
 sudo systemctl restart prometheus # Restarts the prometheus server.
 ```
-7. The prometheus server can be accessed at the port 9090 through the address localhost:9090
+7. The prometheus server can be accessed at the port 9090 through the address localhost:9090. A demo of the prometheus graphical interface is shown below.
 
+![prometheus_interface](prometheus_interface.png)
 
 
 # Acknowledgement
