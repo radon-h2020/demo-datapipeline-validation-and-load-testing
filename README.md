@@ -123,7 +123,7 @@ f.close()
 ```
 - The path of the image folder is to be specified in the python script. The script creates a .txt file, which contains file paths of all the images and later are used for uploading to the S3 bucket via JMeter. The path of the .txt file is specified in the Java code of JSR233 sampler of JMeter.
 
-# Monitoring Apache Nifi Instances Using PrometheusReportingTask
+# Monitoring Apache Nifi Components Using PrometheusReportingTask
 
 ## Prometheus
 
@@ -154,13 +154,13 @@ The PrometheusReportingTask is a reporting task in Nifi processors, which is cap
 Different metrics like nifi_amount_bytes_read, nifi_amount_bytes_written, nifi_amount_flowfiles_sent, nifi_amount_flowfiles_received, etc. can be viewed for each component of the nifi instance in real time.
 
 
-# Monitoring VM instances with Prometheus Node Exporter on which Apache NiFi instances of data pipelines are deployed 
+# Monitoring Apache NiFi instances with Prometheus Node Exporter on OpenStack 
 
 Node Exporter is a tool which enables to measure various computing resources such as memory, disk and CPU utilization. During the deployment, node exporter is installed and activated in the instances of OpenStack, where data pipelines are deployed on the VM instances. In oder to view the metrics fetched from node exporter, Prometheus is installed in another machine (local machine/VM instance in OpenStack) using the steps given in [link](https://computingforgeeks.com/install-prometheus-server-on-centos-7/).
 
-## Steps to monitor the metrics collected from node exporter on the prometheus graphical interface
+## Steps to monitor the metrics collected from Node Exporter on the Prometheus Graphical Interface
 
-1. Create a folder in the machine where prometheus is installed.
+1. Create a folder in the machine where Prometheus is installed.
 2. Place the SSH key of OpenStack in the same folder. The key will have an extension .pem. (Let us assume the key is key.pem)
 3. Download the OpenStack RC file in order to obtain the credentials of Openstack. For this go to API Access -> Download OpenStack RC file -> OpenStack RC file (ldpc-openrc.sh).A sample screenshot is also given in the below figure.
 
