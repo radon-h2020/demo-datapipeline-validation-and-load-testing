@@ -137,7 +137,7 @@ The Prometheus Pushgateway exists to allow ephemeral and batch jobs to expose th
 
 The PrometheusReportingTask is a reporting task in Nifi processors, which is capable of sending monitoring statistics as prometheus metrics to a prometheus pushgateway. Further, the Prometheus server scrapes the metrics from the pushgateway. The documentation is provided [here](http://nifi.apache.org/docs/nifi-docs/components/org.apache.nifi/nifi-prometheus-nar/1.11.4/org.apache.nifi.reporting.prometheus.PrometheusReportingTask/index.html). 
 
-## Steps to Monitor Apache Nifi Instance using PrometheusReportingTask
+## Steps to Monitor Apache Nifi Components using PrometheusReportingTask
 
 - Open Nifi Instance at http://<ip>:8080/nifi and go to the menu in the upper right:
 ![Pipeline2](pipeline.png)
